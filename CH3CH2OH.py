@@ -1,35 +1,41 @@
+# importing the required module
+import catmap
+import numpy as np
+from catmap.model import ReactionModel
+from catmap.analyze import VectorMap
+log_file='catmap_CO2R_template.log'
+model = ReactionModel(setup_file=log_file)
+import pylab as plt
 
-import numpy as np 
-import matplotlib.pyplot as plt 
-import scipy.interpolate 
-from matplotlib.colors import LogNorm
 
-N = 1000 #number of points for plotting/interpolation 
-fig= plt.figure(figsize=(6,5))
-left, buttom, width, height =0.1, 0.1, 0.8, 0.8
-ax=fig.add_axes([left, buttom, width, height])
+labels = model.output_labels['rate']
+xc= [float(a[0][0]) for a in model.turnover_frequency_map]
+yc = [float(a[1][0]) for a in model.turnover_frequency_map]
 
-x, y, z = np.genfromtxt(r'CH3CH2OH_g.txt', unpack=True) 
+x=[i+0.059*13 for i in xc]
 
-x=np.log10(x)
-z=np.log10(z)
+e=1.602e-19
 
-xi = np.linspace(x.min(), x.max(), N) 
-yi = np.linspace(y.min(), y.max(), N) 
-zi = scipy.interpolate.griddata((x, y), z, (xi[None,:], yi[:,None]), method='linear')
+asd=0.169061707523246#0.002505965914042128 #sites/sqAng
+asd*=(1./100.**2*1e10**2)# sites/sqcm
+asd*=e #C/sqcm
+asd*=1000. #mC/sqcm
+asd*=12./2 #multiply by number of electrons, divide by number of CO2
+#y3=[i*2.505965914042128173e-19*12*1000*154.623397436e-16 for i in yc]
+y3=[i*asd for i in yc]
+y=np.log10(y3)
 
-X,Y =np.meshgrid(xi, yi)
-#axim = ax.imshow(Z, norm = LogNorm())
-#axim   = ax.contourf(X,Y,Z,levels=[1e-3,1e-2,1e-1,1e0],cmap=plt.cm.jet,norm =LogNorm())
+plt.xlim([-1.2,-0.0])
+plt.ylim([-4,2])
 
-axim= ax.contourf(X,Y,zi,100,cmap='viridis') #,norm = LogNorm())
-ax.scatter(x,y, color='red')
-
-cb= fig.colorbar(axim)
-
-ax.set_title('Contour plot of CH3CH2OH_g.txt at -1V')
-ax.set_xlabel('Pressure(atm')
-ax.set_ylabel('pH(unit)')
-plt.show() 
-
+# plotting the points
+plt.plot(x,y)
+#naming the axis
+plt.xlabel('Voltage vs RHE(V)')
+# naming the y axis
+plt.ylabel('Current density log(j(mA/cm2)')
+# giving a title to my graph
+plt.title('Simulated polarization curves for CH3CH2OH_g coverage at pH=13, Partial pressure=0.035')
+# function to show the plot
+plt.show()
 

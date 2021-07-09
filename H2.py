@@ -1,3 +1,4 @@
+
 # importing the required module
 import catmap
 import numpy as np
@@ -10,7 +11,7 @@ import pylab as plt
 
 labels = model.output_labels['rate']
 xc= [float(a[0][0]) for a in model.turnover_frequency_map]
-yc = [float(a[1][3]) for a in model.turnover_frequency_map]
+yca = [float(a[1][5]) for a in model.turnover_frequency_map]
 
 x=[i+0.059*13 for i in xc]
 
@@ -22,7 +23,8 @@ asd*=e #C/sqcm
 asd*=1000. #mC/sqcm
 asd*=2 #multiply by number of electrons, divide by number of CO2
 #y3=[i*2.505965914042128173e-19*12*1000*154.623397436e-16 for i in yc]
-y3=[i*asd for i in yc]
+
+y3=[i*asd for i in yca]
 y=np.log10(y3)
 
 plt.xlim([-1.2,-0.0])
@@ -35,7 +37,6 @@ plt.xlabel('Voltage vs RHE(V)')
 # naming the y axis
 plt.ylabel('Current density log(j(mA/cm2)')
 # giving a title to my graph
-plt.title('Simulated polarization curves for CO_g coverage at pH=13, Partial pressure=0.035')
+plt.title('Simulated polarization curves for H2_g coverage at pH=13, Partial pressure=0.035')
 # function to show the plot
 plt.show()
-

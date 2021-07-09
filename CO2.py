@@ -10,7 +10,7 @@ import pylab as plt
 
 labels = model.output_labels['rate']
 xc= [float(a[0][0]) for a in model.turnover_frequency_map]
-yc = [float(a[1][3]) for a in model.turnover_frequency_map]
+yc = [float(a[1][2]) for a in model.turnover_frequency_map]
 
 x=[i+0.059*13 for i in xc]
 
@@ -35,7 +35,6 @@ plt.xlabel('Voltage vs RHE(V)')
 # naming the y axis
 plt.ylabel('Current density log(j(mA/cm2)')
 # giving a title to my graph
-plt.title('Simulated polarization curves for CO_g coverage at pH=13, Partial pressure=0.035')
+plt.title('Simulated polarization curves for CO2_g coverage at pH=13, Partial pressure=0.035')
 # function to show the plot
 plt.show()
-
