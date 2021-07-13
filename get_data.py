@@ -16,6 +16,7 @@ def get_data(pickle_file,model):
         data.voltage.append(s[0])
     coverage_mpf = coverage_map[:,1]
     data.coverage = np.zeros((len(coverage_mpf),len(data.coverage_names)))    
+
     for i in range(0,len(coverage_mpf)):
         for j in range(0,len(coverage_mpf[i])):
             float_rate = float(coverage_mpf[i][j])
@@ -55,7 +56,6 @@ def get_data(pickle_file,model):
             data.turnover_frequency[i][j]=float_rate
     for i in range(0,len(turnover_frequency_mpf)):
         for j in range(0,len(data.turnover_frequency_names)):
-            B
             float_rate = float(turnover_frequency_mpf[i][j])
             data.turnover_frequency[i][j]=float_rate
     #rate control is
